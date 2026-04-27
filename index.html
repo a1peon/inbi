@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>인비(Inbi) — 주방가구 브랜드 비교</title>
+  <meta name="description" content="한샘, 현대리바트, 에넥스, LX하우시스 주방가구 브랜드를 가격·스펙·소재·A/S까지 한눈에 비교하세요." />
+  <meta name="keywords" content="주방가구 비교, 싱크대 브랜드, 한샘, 현대리바트, 에넥스, LX하우시스, 부엌 견적" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --hansem: #D85A30;
+      --rivart: #185FA5;
+      --enex: #0F6E56;
+      --lx: #534AB7;
+      --bg: #FAFAF8;
+      --surface: #FFFFFF;
+      --border: #E8E6E0;
+      --text: #1A1A18;
+      --muted: #6B6960;
+      --accent: #C8410E;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.6; }
+
+    nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; z-index: 100; }
+    .logo { font-size: 22px; font-weight: 700; letter-spacing: -1px; color: var(--text); }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+    .nav-links a:hover { color: var(--text); }
+
+    .hero { padding: 72px 32px 56px; text-align: center; max-width: 680px; margin: 0 auto; }
+    .hero-badge { display: inline-block; font-size: 12px; padding: 4px 14px; border-radius: 20px; background: #FFF0EB; color: var(--accent); margin-bottom: 20px; font-weight: 500; }
+    .hero h1 { font-size: 36px; font-weight: 700; letter-spacing: -1.5px; line-height: 1.25; margin-bottom: 14px; }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+    .hero p { font-size: 15px; color: var(--muted); margin-bottom: 36px; }
+
+    .filter-wrap { padding: 0 32px 20px; max-width: 1140px; margin: 0 auto; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .filter-label { font-size: 13px; color: var(--muted); margin-right: 4px; }
+    .filter-btn { font-size: 13px; padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); cursor: pointer; transition: all 0.15s; }
+    .filter-btn:hover { border-color: var(--text); color: var(--text); }
+    .filter-btn.active { background: var(--text); color: white; border-color: var(--text); }
+
+    .layout-wrap { padding: 0 32px 28px; max-width: 1140px; margin: 0 auto; }
+    .layout-label { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+    .layout-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    .layout-tab { font-size: 13px; padding: 7px 18px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); cursor: pointer; transition: all 0.15s; }
+    .layout-tab:hover { border-color: var(--accent); color: var(--accent); }
+    .layout-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+    .layout-desc { font-size: 13px; color: var(--muted); padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; display: none; line-height: 1.7; }
+    .layout-desc.show { display: block; }
+
+    .brand-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 1140px; margin: 0 auto; padding: 0 32px 56px; }
+    @media (max-width: 960px) { .brand-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .brand-grid { grid-template-columns: 1fr; } .nav-links { display: none; } .hero h1 { font-size: 26px; } }
+
+    .brand-card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; transition: transform 0.15s, box-shadow 0.15s; }
+    .brand-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+    .brand-card.featured { border-color: var(--hansem); border-width: 2px; }
+
+    .card-top { padding: 22px 20px 16px; display: flex; justify-content: space-between; align-items: flex-start; }
+    .emblem { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: white; }
+    .e-hansem { background: var(--hansem); }
+    .e-rivart { background: var(--rivart); }
+    .e-enex { background: var(--enex); }
+    .e-lx { background: var(--lx); }
+    .badge { font-size: 11px; padding: 3px 9px; border-radius: 20px; font-weight: 500; }
+    .b-top { background: #FFF0EB; color: var(--hansem); }
+    .b-prem { background: #EEF4FF; color: var(--rivart); }
+    .b-val { background: #EEFBF5; color: var(--enex); }
+    .b-mat { background: #F2EFFF; color: var(--lx); }
+
+    .card-body { padding: 0 20px 22px; }
+    .brand-name { font-size: 19px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 2px; }
+    .brand-sub { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+    .price-box { background: var(--bg); border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; }
+    .price-hint { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+    .price-val { font-size: 14px; font-weight: 700; }
+    .stars { display: flex; gap: 2px; margin-bottom: 14px; }
+    .s-on { color: #EF9F27; font-size: 14px; }
+    .s-off { color: #DDD; font-size: 14px; }
+    .spec-rows { border-top: 1px solid var(--border); padding-top: 12px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 8px; }
+    .spec-row { display: flex; justify-content: space-between; font-size: 13px; }
+    .spec-k { color: var(--muted); }
+    .spec-v { font-weight: 500; }
+    .tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 16px; }
+    .tag { font-size: 11px; padding: 3px 9px; border-radius: 20px; background: var(--bg); color: var(--muted); border: 1px solid var(--border); }
+    .card-btn { display: block; width: 100%; padding: 10px; text-align: center; border: 1px solid var(--border); border-radius: 10px; font-size: 13px; font-weight: 500; color: var(--text); background: var(--bg); cursor: pointer; transition: all 0.15s; text-decoration: none; }
+    .card-btn:hover { background: var(--text); color: white; border-color: var(--text); }
+
+    .section { padding: 0 32px 56px; max-width: 1140px; margin: 0 auto; }
+    .section-title { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 20px; }
+    .section-title span { color: var(--accent); }
+
+    .compare-tbl { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: 16px; overflow: hidden; border: 1px solid var(--border); font-size: 13px; }
+    .compare-tbl th { padding: 13px 16px; font-weight: 600; text-align: center; background: var(--bg); border-bottom: 1px solid var(--border); }
+    .compare-tbl th:first-child { text-align: left; color: var(--muted); font-weight: 500; }
+    .compare-tbl td { padding: 12px 16px; text-align: center; border-bottom: 1px solid var(--border); }
+    .compare-tbl td:first-child { text-align: left; color: var(--muted); background: var(--bg); font-size: 12px; }
+    .compare-tbl tr:last-child td { border-bottom: none; }
+    .pill { display: inline-block; font-size: 11px; padding: 3px 9px; border-radius: 20px; font-weight: 500; }
+    .pg { background: #EEFBF5; color: var(--enex); }
+    .pa { background: #FAEEDA; color: #BA7517; }
+    .pr { background: #FCEBEB; color: #A32D2D; }
+
+    .grade-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    @media (max-width: 700px) { .grade-grid { grid-template-columns: 1fr; } }
+    .grade-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
+    .grade-tier { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 6px; }
+    .grade-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .grade-price { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+    .grade-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+    .grade-list li { font-size: 13px; color: var(--muted); padding-left: 16px; position: relative; }
+    .grade-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 11px; top: 2px; }
+    .grade-card.highlight { border-color: var(--accent); }
+    .grade-card.highlight .grade-tier { color: var(--accent); }
+
+    .bar-section { display: flex; flex-direction: column; gap: 14px; }
+    .bar-row { display: flex; align-items: center; gap: 12px; }
+    .bar-name { font-size: 13px; color: var(--muted); width: 90px; flex-shrink: 0; }
+    .bar-bg { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 4px; }
+    .bf-hansem { background: var(--hansem); }
+    .bf-rivart { background: var(--rivart); }
+    .bf-enex { background: var(--enex); }
+    .bf-lx { background: var(--lx); }
+    .bar-num { font-size: 13px; font-weight: 500; width: 80px; text-align: right; }
+
+    footer { background: var(--surface); border-top: 1px solid var(--border); padding: 36px 32px; text-align: center; }
+    footer .footer-logo { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
+    footer .footer-logo span { color: var(--accent); }
+    footer p { font-size: 12px; color: var(--muted); line-height: 1.9; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">인<span>비</span></div>
+  <div class="nav-links">
+    <a href="#compare">브랜드 비교</a>
+    <a href="#grade">등급 안내</a>
+    <a href="#detail">상세 스펙</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">주방가구 비교 플랫폼 · Beta</div>
+  <h1>부엌 바꾸기 전,<br /><em>인비</em>에서 먼저 비교하세요</h1>
+  <p>한샘·현대리바트·에넥스·LX하우시스<br />가격, 소재, A/S, 납기까지 한눈에</p>
+</section>
+
+<div class="filter-wrap">
+  <span class="filter-label">정렬</span>
+  <button class="filter-btn active" onclick="doSort(this,'default')">기본순</button>
+  <button class="filter-btn" onclick="doSort(this,'price')">가격 낮은순</button>
+  <button class="filter-btn" onclick="doSort(this,'as')">A/S 긴순</button>
+  <button class="filter-btn" onclick="doSort(this,'rating')">평점순</button>
+</div>
+
+<div class="layout-wrap">
+  <div class="layout-label">부엌 형태 선택</div>
+  <div class="layout-tabs">
+    <button class="layout-tab active" onclick="setLayout(this,'all','모든 형태')">전체</button>
+    <button class="layout-tab" onclick="setLayout(this,'il','일자형 — 한쪽 벽에 일렬로 배치. 공간 효율적이며 소형 주방에 적합. 가격대 가장 낮음.')">일자형 (ㅡ)</button>
+    <button class="layout-tab" onclick="setLayout(this,'g','ㄱ자형 — 두 벽면을 L자로 활용. 중형 주방에 최적. 동선 효율 좋음.')">ㄱ자형 (L)</button>
+    <button class="layout-tab" onclick="setLayout(this,'d','ㄷ자형 — 세 벽면 활용. 수납 공간 최대. 대형 주방에 적합.')">ㄷ자형 (U)</button>
+    <button class="layout-tab" onclick="setLayout(this,'island','아일랜드형 — 중앙 독립 조리대 추가. 개방형 주방. 가격대 가장 높음.')">아일랜드형</button>
+    <button class="layout-tab" onclick="setLayout(this,'peninsula','페닌슐라형 — 한쪽이 벽에 붙은 반도형 아일랜드. 아일랜드보다 경제적.')">페닌슐라형</button>
+  </div>
+  <div class="layout-desc" id="layoutDesc"></div>
+</div>
+
+<div class="brand-grid" id="brandGrid">
+
+  <div class="brand-card featured" data-price="300" data-as="10" data-rating="5" data-order="1">
+    <div class="card-top">
+      <div class="emblem e-hansem">한샘</div>
+      <span class="badge b-top">점유율 1위</span>
+    </div>
+    <div class="card-body">
+      <div class="brand-name">한샘</div>
+      <div class="brand-sub">국내 최대 주방가구 브랜드</div>
+      <div class="price-box">
+        <div class="price-hint">가격대 (설치 포함)</div>
+        <div class="price-val">300 ~ 2,000만원</div>
+      </div>
+      <div class="stars">
+        <span class="s-on">★</span><span class="s-on">★</span><span class="s-on">★</span><span class="s-on">★</span><span class="s-on">★</span>
+      </div>
+      <div class="spec-rows">
+        <div class="spec-row"><span class="spec-k">A/S 기간</span><span class="spec-v">10년</span></div>
+        <div class="spec-row"><span class="spec-k">설치비</span><span class="spec-v">포함</span></div>
+        <div class="spec-row"><span class="spec-k">납기</span><span class="spec-v">4 ~ 6주</span></div>
+        <div class="spec-row"><span class="spec-k">전국 시공</span><span class="spec-v">직영망</span></div>
+      </div>
+      <div class="tags">
+        <span class="tag">프리미엄라인</span>
+        <span class="tag">빌트인</span>
+        <span class="tag">리모델링</span>
+      </div>
+      <a class="card-btn" href="https://www.hanssem.com" target="_blank">공식 사이트 →</a>
+    </div>
+  </div>
+
+  <div class="brand-card" data-price="400" data-as="10" data-rating="4" data-order="2">
+    <div class="card-top">
+      <div class="emblem e-rivart">리바트</div>
+      <span class="badge b-prem">프리미엄</span>
+    </div>
+    <div class="card-body">
+      <div class="brand-name">현대리바트</div>
+      <div class="brand-sub">현대백화점그룹 고급 브랜드</div>
+      <div class="price-box">
+        <div class="price-hint">가격대 (설치 별도)</div>
+        <div class="price-val">400 ~ 2,500만원</div>
+      </div>
+      <div class="stars">
+        <span class="s-on">★</span><span class="s-on">★</span><span class="s-on">★</span><span class="s-on">★</span><span class="s-off">★</span>
+      </div>
+      <div class="spec-rows">
+        <div class="spec-row"><span class="spec-k">A/S 기간</span><span class="spec-v">10년</span></div>
+        <div class="spec-row"><span class="spec-k">설치비</span><span class="spec-v">별도 협의</span></div>
+        <div class="spec-row"><span class="spec-k">납기</span><span class="spec-v">5 ~ 7주</span></div>
+        <div class="spec-row"><span class="spec-k">전국 시공</span><span class="spec-v">직영망</span></div>
+      </div>
+      <div class="tags">
+        <span class="tag">고급자재</span>
+        <span class="tag">맞춤제작</span>
+        <span class="tag">백화점AS</span>
+      </div>
+      <a class="card-btn" href="https://www.hyundailivart.co.kr" target="_blank">공식 사이트 →</a>
+    </div>
+  </div>
+
+  <div class="brand-card" data-price="200" data-as="5" data-rating="4" data-order="3">
+    <div class="card-top">
+      <div class="emblem e-enex">에넥스</div>
+      <span class="badge b-val">가성비</span>
+    </div>
+    <div class="card-body">
+      <div class="brand-name">에넥스</div>
+      <div class="brand-sub">아파트 빌트인 강자</div>
+      <div class="price-box">
+        <div class="price-hint">가격대 (설치 포함)</div>
+        <div class="price-val">200 ~ 1,200만원</div>
+      </div>
+      <div class="stars">
+        <span class="s-on">★</span><span class="s-on">★</span><span class="s-on">★</span><span class="s-on">★</span><span class="s-off">★</span>
+      </div>
+      <div class="spec-rows">
+        <div class="spec-row"><span class="spec-k">A/S 기간</span><span class="spec-v">5년</span></div>
+        <div class="spec-row"><span class="spec-k">설치비</span><span class="spec-v">포함</span></div>
+        <div class="spec-row"><span class="spec-k">납기</span><span class="spec-v">3 ~ 5주</span></div>
+        <div class="spec-row"><span class="spec-k">전국 시공</span><span class="spec-v">대리점망</span></div>
+      </div>
+      <div class="tags">
+        <span class="tag">신축아파트</span>
+        <span class="tag">빌트인특화</span>
+        <span class="tag">합리적가격</span>
+      </div>
+      <a class="card-btn" href="https://www.enex.co.kr" target="_blank">공식 사이트 →</a>
+    </div>
+  </div>
+
+  <div class="brand-card" data-price="350" data-as="7" data-rating="4" data-order="4">
+    <div class="card-top">
+      <div class="emblem e-lx">LX</div>
+      <span class="badge b-mat">소재특화</span>
+    </div>
+    <div class="card-body">
+      <div class="brand-name">LX하우시스</div>
+      <div class="brand-sub">소재·마감재 전문 프리미엄</div>
+      <div class="price-box">
+        <div class="price-hint">가격대 (설치 별도)</div>
+        <div class="price-val">350 ~ 1,800만원</div>
+      </div>
+      <div class="stars">
+        <span class="s-on">★</span><span class="s-on">★</span><span class="s-on">★</span><span class="s-on">★</span><span class="s-off">★</span>
+      </div>
+      <div class="spec-rows">
+        <div class="spec-row"><span class="spec-k">A/S 기간</span><span class="spec-v">7년</span></div>
+        <div class="spec-row"><span class="spec-k">설치비</span><span class="spec-v">별도</span></div>
+        <div class="spec-row"><span class="spec-k">납기</span><span class="spec-v">4 ~ 6주</span></div>
+        <div class="spec-row"><span class="spec-k">전국 시공</span><span class="spec-v">파트너망</span></div>
+      </div>
+      <div class="tags">
+        <span class="tag">인조대리석</span>
+        <span class="tag">자체소재</span>
+        <span class="tag">디자인특화</span>
+      </div>
+      <a class="card-btn" href="https://www.lxhausys.co.kr" target="_blank">공식 사이트 →</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="section" id="grade">
+  <div class="section-title">등급별 <span>가격 안내</span></div>
+  <div class="grade-grid">
+    <div class="grade-card">
+      <div class="grade-tier">Entry</div>
+      <div class="grade-name">일반형</div>
+      <div class="grade-price">200 ~ 500만원</div>
+      <ul class="grade-list">
+        <li>멜라민 / UV도장 도어</li>
+        <li>인조대리석 상판 기본</li>
+        <li>일자형·ㄱ자형 구조</li>
+        <li>신축 아파트 입주 추천</li>
+      </ul>
+    </div>
+    <div class="grade-card highlight">
+      <div class="grade-tier">Standard</div>
+      <div class="grade-name">중급형</div>
+      <div class="grade-price">500 ~ 1,200만원</div>
+      <ul class="grade-list">
+        <li>하이글로시·무광도장 도어</li>
+        <li>세라믹·엔지니어드스톤 상판</li>
+        <li>ㄱ자·ㄷ자 자유 선택</li>
+        <li>블룸(Blum) 경첩·레일</li>
+        <li>가장 많이 선택하는 구간</li>
+      </ul>
+    </div>
+    <div class="grade-card">
+      <div class="grade-tier">Premium</div>
+      <div class="grade-name">프리미엄형</div>
+      <div class="grade-price">1,200만원 이상</div>
+      <ul class="grade-list">
+        <li>유리·금속·특수도장 도어</li>
+        <li>세라믹 슬랩·천연석 상판</li>
+        <li>아일랜드·페닌슐라 포함</li>
+        <li>빌트인 가전 패키지</li>
+        <li>맞춤 설계·시공</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="detail">
+  <div class="section-title">상세 스펙 <span>비교</span></div>
+  <div style="overflow-x:auto">
+    <table class="compare-tbl">
+      <thead>
+        <tr>
+          <th>항목</th>
+          <th>한샘</th>
+          <th>현대리바트</th>
+          <th>에넥스</th>
+          <th>LX하우시스</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>도어 소재</td>
+          <td>UV도장, 시트지, 유리</td>
+          <td>하이글로시, 무광도장</td>
+          <td>UV도장, 멜라민</td>
+          <td>ZEST필름, 특수도장</td>
+        </tr>
+        <tr>
+          <td>상판 소재</td>
+          <td>인조대리석, 세라믹</td>
+          <td>세라믹, 엔지니어드스톤</td>
+          <td>인조대리석</td>
+          <td>하이막스(자체개발)</td>
+        </tr>
+        <tr>
+          <td>경첩·레일</td>
+          <td>블룸(Blum)</td>
+          <td>블룸(Blum)</td>
+          <td>헤티히·자체</td>
+          <td>블룸(Blum)</td>
+        </tr>
+        <tr>
+          <td>아일랜드 지원</td>
+          <td><span class="pill pg">지원</span></td>
+          <td><span class="pill pg">지원</span></td>
+          <td><span class="pill pa">별도 협의</span></td>
+          <td><span class="pill pg">지원</span></td>
+        </tr>
+        <tr>
+          <td>가격 경쟁력</td>
+          <td><span class="pill pa">중상</span></td>
+          <td><span class="pill pr">고가</span></td>
+          <td><span class="pill pg">가성비</span></td>
+          <td><span class="pill pa">중상</span></td>
+        </tr>
+        <tr>
+          <td>A/S 체계</td>
+          <td>전국 직영센터</td>
+          <td>백화점 연계</td>
+          <td>지역 대리점</td>
+          <td>본사 + 파트너</td>
+        </tr>
+        <tr>
+          <td>추천 대상</td>
+          <td>브랜드·AS 중시</td>
+          <td>고급·프리미엄 추구</td>
+          <td>가성비·신축 입주</td>
+          <td>소재·디자인 중시</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section" id="compare">
+  <div class="section-title">가격대 <span>비교</span></div>
+  <div class="bar-section">
+    <div class="bar-row">
+      <span class="bar-name">한샘</span>
+      <div class="bar-bg"><div class="bar-fill bf-hansem" style="width:88%"></div></div>
+      <span class="bar-num">300~2,000만</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-name">현대리바트</span>
+      <div class="bar-bg"><div class="bar-fill bf-rivart" style="width:100%"></div></div>
+      <span class="bar-num">400~2,500만</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-name">에넥스</span>
+      <div class="bar-bg"><div class="bar-fill bf-enex" style="width:52%"></div></div>
+      <span class="bar-num">200~1,200만</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-name">LX하우시스</span>
+      <div class="bar-bg"><div class="bar-fill bf-lx" style="width:76%"></div></div>
+      <span class="bar-num">350~1,800만</span>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">인<span>비</span></div>
+  <p>
+    본 사이트는 소비자가 직접 수집한 공개 정보를 바탕으로 운영됩니다.<br />
+    광고·협찬과 무관하며, 가격은 평형·옵션·시공 지역에 따라 달라질 수 있습니다.<br />
+    © 2026 Inbi. All rights reserved.
+  </p>
+</footer>
+
+<script>
+  const layoutDescs = {
+    il: '일자형 — 한쪽 벽에 일렬로 배치. 소형 주방(3~5평)에 적합하며 가격대가 가장 낮습니다. 이동 동선이 단순하고 시공이 쉬워 납기도 빠릅니다.',
+    g: 'ㄱ자형 (L형) — 두 벽면을 L자로 활용. 중형 주방(5~8평)에 최적. 작업 동선이 효율적이며 가장 많이 선택하는 형태입니다.',
+    d: 'ㄷ자형 (U형) — 세 벽면을 활용해 수납 공간이 가장 넓습니다. 대형 주방(8평 이상)에 적합. 가격은 일자형 대비 30~50% 높습니다.',
+    island: '아일랜드형 — 중앙에 독립 조리대(아일랜드)를 추가. 개방형 주방·거실 연계 구조에 적합. 가격대가 가장 높으며 공간이 충분해야 합니다(주방 10평 이상 권장).',
+    peninsula: '페닌슐라형 — 한쪽이 벽에 붙은 반도형 아일랜드. 아일랜드보다 공간을 덜 차지하고 가격도 낮습니다. 중형~대형 주방에 적합.',
+    all: ''
+  };
+
+  function setLayout(btn, type, desc) {
+    document.querySelectorAll('.layout-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const el = document.getElementById('layoutDesc');
+    if (type === 'all') {
+      el.classList.remove('show');
+    } else {
+      el.textContent = layoutDescs[type] || desc;
+      el.classList.add('show');
+    }
+  }
+
+  function doSort(btn, type) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const grid = document.getElementById('brandGrid');
+    const cards = Array.from(grid.children);
+    cards.sort((a, b) => {
+      if (type === 'price') return Number(a.dataset.price) - Number(b.dataset.price);
+      if (type === 'as') return Number(b.dataset.as) - Number(a.dataset.as);
+      if (type === 'rating') return Number(b.dataset.rating) - Number(a.dataset.rating);
+      return Number(a.dataset.order) - Number(b.dataset.order);
+    });
+    cards.forEach(c => grid.appendChild(c));
+  }
+</script>
+</body>
+</html>
